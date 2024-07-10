@@ -1,0 +1,10 @@
+<div class="prioritization-name" [ngClass]="getNameBgColor()">
+    {{secondPrioritization ? 'diff' : prioritization.name}}
+    <div class="test-indicator" [title]="testNamesByPosition[currentTestIndex]" *ngIf="!secondPrioritization">
+        {{testNamesByPosition[currentTestIndex]}}
+    </div>
+</div>
+<div id="d3-parent" [ngClass]="getBorderColor()">
+    <svg #d3Renderer id="sigma-example"></svg>
+    <svg #legendRenderer id="legend-renderer"></svg>
+</div>

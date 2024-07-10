@@ -1,0 +1,13 @@
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.passed-row {
+  background-color: #d6f7ff;
+}
+
+.failed-row {
+  background-color: #ffbebe;
+}

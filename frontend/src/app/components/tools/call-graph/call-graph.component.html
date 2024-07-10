@@ -1,0 +1,120 @@
+<app-prioritization-dropzone [allowedSubjectAmount]="1" [allowedAmount]="2" [displayColorOptions]="false"
+                             (subjectChange)="handleSubjectChange($event)"
+                             (onTestKeyChange)="handleTestKeyChange($event)"
+                             (selectionChange)="handleSelectedPrioritizationChange($event)">
+    <div class="card" *ngIf="(graphologyInstance && testSet && testKey && selectedSubject && selectedPrioritizations.length == 2 && !this.preprocessing && data)">
+        <app-feature-mapper *ngIf="this.callgraph" [initialFeatureMapper]="this.callgraph" (onFeatureMapperSubmit)="handleAliasesChange($event)"></app-feature-mapper>
+    </div>
+</app-prioritization-dropzone>
+<div class="player circle-transition" *ngIf="selectedPrioritizations.length == 2">
+    <div class="controls" title="Playback controls">
+        <div class="btn-group btn-primary">
+            <button class="btn btn-icon btn-sm" (click)="incrementPlayback(-1)">
+                <cds-icon shape="rewind"></cds-icon>
+            </button>
+            <button class="btn btn-icon btn-sm" *ngIf="!playing" (click)="startPlayback()">
+                <cds-icon shape="play"></cds-icon>
+            </button>
+            <button *ngIf="playing" (click)="pausePlayback()" class="btn btn-icon btn-sm">
+                <cds-icon shape="pause"></cds-icon>
+            </button>
+            <button class="btn btn-icon btn-sm" (click)="stopPlayback()">
+                <cds-icon shape="stop" ></cds-icon>
+            </button>
+            <button class="btn btn-icon btn-sm" (click)="incrementPlayback(1)">
+                <cds-icon shape="fast-forward" ></cds-icon>
+            </button>
+        </div>
+    </div>
+    <div title="Enable package Mode">
+        <input type="checkbox" clrToggle [(ngModel)]="this.packageMode"/>
+    </div>
+    <div title="Enable Incremental Coverage Mode">
+        <input type="checkbox" clrToggle [(ngModel)]="this.incrementalMode"/>
+    </div>
+
+    <div title="Progress">
+        {{this.currentTestIndex+1}}/{{this.testSet!.length}}
+    </div>
+</div>
+<div *ngIf="selectedPrioritizations.length == 2">
+<div class="slider" (onResize)="handleResize($event, true)">
+    <input type="range" [(ngModel)]="currentTestIndex" min="0"
+           [max]="selectedPrioritizations[0]?.loadedSort?.length! - 1"/>
+</div>
+<plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="config"></plotly-plot>
+</div>
+<div *ngIf="(!preprocessing) && (graphologyInstance && testSet && testKey && selectedSubject && selectedPrioritizations.length == 2 && !this.preprocessing && data)"
+      class="grid-container" [ngClass]="selectedPrioritizations.length % 2 == 0? '':'grid-odd'">
+    <app-graph-renderer
+        *ngIf="selectedPrioritizations.length > 1"
+        style="min-height: 100%"
+        [amountOfCoveringTestsFn]="getAmountOfCoveringTests"
+        [testNamesByPosition]="testNamesByPosition"
+        [testPositionsByName2]="testPositionsByName2"
+        [testPositionsByName]="testPositionsByName"
+        [hierarchyTree]="data"
+        [packageMode]="packageMode"
+        (nodeClickEmitter)="currentTestIndex = $event"
+        [refreshEmitter]="this.refreshEmitter"
+        [incrementalMode]="incrementalMode"
+        [hoveredNodeSubject]="hoveredNodeSubject"
+        [cameraSubject]="cameraSubject"
+        [coveringTests]="coveringTests"
+        [graph]="this.graphologyInstance!"
+        [testKey]="testKey!"
+        [maxNumberOfTestsThatCoverANode]="maxNumberOfTestsThatCoverNode"
+        [testSet]="testSet!"
+        [prioritization]="selectedPrioritizations[0]!"
+        [secondPrioritization]="selectedPrioritizations[1]!"
+        [subject]="selectedSubject!"
+        [currentTestIndex]="currentTestIndex"
+        (diffLineGraphData)="handleLineGraphData($event)"
+        (cumulativeCoverageLineGraphData)="handleLineGraphData($event)"
+    ></app-graph-renderer>
+    <app-graph-renderer
+                        style="min-height: 100%"
+                        [amountOfCoveringTestsFn]="getAmountOfCoveringTests"
+                        [testNamesByPosition]="testNamesByPosition2"
+                        [testPositionsByName2]="testPositionsByName2"
+                        [testPositionsByName]="testPositionsByName"
+                        [hierarchyTree]="data"
+                        (nodeClickEmitter)="currentTestIndex = $event"
+                        [refreshEmitter]="this.refreshEmitter"
+                        [incrementalMode]="incrementalMode"
+                        [hoveredNodeSubject]="hoveredNodeSubject"
+                        [packageMode]="packageMode"
+                        [cameraSubject]="cameraSubject"
+                        [coveringTests]="coveringTests"
+                        [graph]="this.graphologyInstance!"
+                        [testKey]="testKey!"
+                        [maxNumberOfTestsThatCoverANode]="maxNumberOfTestsThatCoverNode"
+                        [testSet]="testSet!"
+                        [prioritization]="selectedPrioritizations[1]!"
+                        [isSecondPrioritization]="true"
+                        [subject]="selectedSubject!"
+                        [currentTestIndex]="currentTestIndex"
+    ></app-graph-renderer>
+    <app-graph-renderer
+        style="min-height: 100%"
+        [amountOfCoveringTestsFn]="getAmountOfCoveringTests"
+        [testNamesByPosition]="testNamesByPosition"
+        [testPositionsByName2]="testPositionsByName2"
+        [testPositionsByName]="testPositionsByName"
+        [hierarchyTree]="data"
+        (nodeClickEmitter)="currentTestIndex = $event"
+        [refreshEmitter]="this.refreshEmitter"
+        [incrementalMode]="incrementalMode"
+        [hoveredNodeSubject]="hoveredNodeSubject"
+        [packageMode]="packageMode"
+        [cameraSubject]="cameraSubject"
+        [coveringTests]="coveringTests"
+        [graph]="this.graphologyInstance!"
+        [testKey]="testKey!"
+        [maxNumberOfTestsThatCoverANode]="maxNumberOfTestsThatCoverNode"
+        [testSet]="testSet!"
+        [prioritization]="selectedPrioritizations[0]!"
+        [subject]="selectedSubject!"
+        [currentTestIndex]="currentTestIndex"
+    ></app-graph-renderer>
+</div>

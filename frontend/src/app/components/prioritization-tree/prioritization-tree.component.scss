@@ -1,0 +1,37 @@
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 4.1rem);
+  justify-content: space-between;
+}
+
+.tree-node {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: calc(100% - 28px);
+}
+
+.tree {
+  overflow: auto;
+}
+
+.selected {
+  font-weight: bold;
+  background: gainsboro;
+}
+
+.clr-form-control {
+  margin-top: 0;
+}
+
+.search-field {
+  min-width: 18rem;
+  margin: 0 1rem 1rem 1rem;
+}
+
+.color-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}

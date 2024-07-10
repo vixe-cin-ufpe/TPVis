@@ -1,0 +1,15 @@
+<div class="wrapper">
+  <app-prioritization-dropzone toolName="Table" [allowedAmount]="1" (selectionChange)="handleSelectedPrioritizationChange($event)"
+                               (onFailureSetChange)="handleFailureSetChange($event)"
+                               (onTestKeyChange)="handleTestKeyChange($event)"></app-prioritization-dropzone>
+  <ag-grid-angular
+    style="width: 100%; flex: 1;"
+    class="ag-theme-alpine"
+    (gridReady)="onGridReady($event)"
+    [defaultColDef]="defaultColDef"
+    [rowData]="data"
+    [rowClassRules]="rowClassRules"
+    [columnDefs]="columns">
+  </ag-grid-angular>
+
+</div>

@@ -1,0 +1,149 @@
+.work-space-content {
+  flex: 1 1 auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.work-space-view {
+  flex: 1;
+}
+
+.tool-meta-menu {
+  position: absolute;
+  right: 0;
+  background: var(--clr-card-bg-color);
+  border: solid var(--clr-card-border-width) var(--clr-card-border-color);
+  border-radius: 0 0 0 0.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > span{
+    padding: .1rem .2rem .1rem .2rem;
+    &:not(:first-child) {
+      border-left: solid var(--clr-card-border-width) var(--clr-card-border-color);
+    }
+    &.drag-handler {
+      cursor: grab;
+    }
+    cursor: pointer;
+  }
+}
+
+.analysis-tool-instance {
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+  border: solid var(--clr-card-border-width) var(--clr-card-border-color);
+  box-shadow: var(--clr-card-box-shadow);
+}
+
+.full-container { grid-area: 1 / 1 / 3 / 3; }
+
+.frame {
+  overflow: auto;
+}
+
+.tools-pane{
+  padding: 1rem;
+  background: var(--clr-color-neutral-50);
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  transition: all .2s;
+  &>* {
+    transition: all .2s;
+  }
+}
+
+.tool-set {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  overflow: auto;
+  min-height: 115px;
+  overflow-y: hidden;
+  .card{
+    max-height: 100px;
+    min-width: 100px;
+  }
+}
+
+.card{
+  margin-top: 0 !important;
+  width: auto !important;
+}
+
+
+.cdk-drag-placeholder {
+  display:none;
+}
+
+gridster {
+  background: white
+}
+
+gridster ::ng-deep .gridster-preview {
+  background: rgba(0,0,0,.02);
+}
+
+gridster ::ng-deep .gridster-row {
+  border-bottom: none;
+  border-top: none;
+}
+gridster ::ng-deep .gridster-column {
+  border-right: none;
+  border-left: none;
+}
+
+.loading-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  min-height: 64px;
+}
+
+.tool-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-top: .2rem;
+}
+
+.workspace-help-text {
+  text-align: center;
+  margin-bottom: 0rem;
+  font-size: 2rem;
+  transform: translate(0, calc(-50vh + 2rem));
+  opacity: .5;
+}
+
+.preset-icon {
+  transform: scale(3.8);
+  transform-origin: top left;
+}
+
+.tabs-vertical {
+  margin-right: 0
+}
+
+.nav>.nav-item {
+  margin-right: 0;
+}
+
+.drop-globally {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  &>.card {
+    width: 25vw;
+    padding: 1rem;
+    font-size: 1rem;
+    box-shadow: 0 10px 35px -6px rgba(61,61,61,1);
+  }
+}

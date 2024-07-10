@@ -1,0 +1,6 @@
+<div class="wrapper">
+  <app-prioritization-dropzone toolName="Matrix" [displayColorOptions]="false" [allowedAmount]="2" (selectionChange)="handleSelectedPrioritizationChange($event)"  (onFailureSetChange)="handleFailureSetChange($event)"></app-prioritization-dropzone>
+  <div class="plot" (onResize)="handleResize($event)" >
+    <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="config"></plotly-plot>
+  </div>
+</div>

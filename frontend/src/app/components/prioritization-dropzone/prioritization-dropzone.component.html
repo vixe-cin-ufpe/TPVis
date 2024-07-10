@@ -1,0 +1,75 @@
+<app-pick-data-btn class="open-dropzone-btn" (click)="dropzoneOpen = true"
+                   *ngIf="!disableOpenButton"></app-pick-data-btn>
+
+<app-tool-overlay *ngIf="dropzoneOpen" [title]="title" (closeEvent)="dropzoneOpen = false">
+    <div class="card" *ngIf="displayColorOptions" style="display: flex">
+        <clr-select-container>
+            <label>Color By:</label>
+            <select clrSelect name="options" [(ngModel)]="colorMode" (ngModelChange)="emitColorModeChange()">
+                <option value="global">Custom color</option>
+                <option value="metric">Metric</option>
+                <option value="parent">Parent</option>
+            </select>
+        </clr-select-container>
+        <clr-checkbox-container>
+            <clr-checkbox-wrapper>
+                <input type="checkbox" clrCheckbox [(ngModel)]="applyColorOptGlobally" />
+                <label>Apply globally</label>
+            </clr-checkbox-wrapper>
+        </clr-checkbox-container>
+    </div>
+
+    <div class="color-picker" *ngIf="displayColorPicker" (click)="discardClick($event)">
+        <div style="padding-top: 1rem">
+            <compact-picker [control]="colorPickerControl">
+                <div style="text-align: right">
+                    <button type="button" class="btn btn-sm btn-link" (click)="applyColor($event)">Apply</button>
+                </div>
+            </compact-picker>
+        </div>
+
+    </div>
+
+    <div class="card" *ngIf="!disableSubjectInput">
+          <span (dragstart)="dragStartNodes(subject)"
+                draggable="true" class="label" *ngFor="let subject of subjects"
+                [title]="subject.treePath">{{subject.name}}
+              <cds-icon (click)="clearSubject(subject)" shape="window-close" style="cursor:pointer"></cds-icon>
+          </span>
+        <span class="label drop-placeholder" (dragover)="allowDrop($event)" (drop)="onDropSubject()"
+              *ngIf="isSubjectDropAllowed()"> Drag a fault here... </span>
+        <div class="card-footer" *ngIf="subjects.length > 1">
+            <button class="btn btn-sm btn-link" (click)="clearSubjects()">Clear</button>
+        </div>
+    </div>
+    <div class="card" *ngIf="!disablePrioritizationInput">
+          <span>
+            <span class="label" (dragstart)="dragStartNodes(prioritization)"
+
+                  [duration]="500" (longPress)="handleLongPress()"
+                  draggable="true" [title]="prioritization.treePath"
+                  *ngFor="let prioritization of loadedPrioritizations"
+                  (click)="handlePrioritizationClick(prioritization)"
+                  [class.selected-prioritization]="selectedPrioritizations.includes(prioritization)"
+                  [ngStyle]="{
+                   'opacity': this.filteredPrioritizations.length > 0 && this.filteredPrioritizations.includes(prioritization.path!) || this.filteredPrioritizations.length == 0 ? 1 : .5,
+                   'background-color': Object.keys(this.colorMap).includes(prioritization.path!) ? getColorWithOpacity(this.colorMap[prioritization.path!], 1) : 'white',
+                   'border-color': Object.keys(this.colorMap).includes(prioritization.path!) ? getColorWithOpacity(this.colorMap[prioritization.path!], 0.5) : 'white'
+                  }">
+              <app-metric-badge *ngIf="prioritization.apfd != undefined"
+                                [value]="prioritization.apfd != undefined ? prioritization.apfd! : prioritization.autc!"></app-metric-badge>
+                {{loadedPrioritizations.length <= 5 ? prioritization.name : ''}}
+                <cds-icon (click)="removePrioritization(prioritization)" shape="window-close"
+                          style="cursor:pointer"></cds-icon>
+            </span>
+          </span>
+
+        <span class="label drop-placeholder" (dragover)="allowDrop($event)" (drop)="onDropPrioritization()"
+              *ngIf="isPrioritizationDropAllowed()"> Drag a prioritization here... </span>
+
+        <div class="card-footer" *ngIf="loadedPrioritizations.length > 1">
+            <button class="btn btn-sm btn-link" (click)="clearPrioritizations()">Clear</button>
+        </div>
+    </div>
+    <ng-content></ng-content>
+</app-tool-overlay>

@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ag-grid-community/styles//ag-grid.css";
+@import "~ag-grid-community/styles//ag-theme-alpine.css";
+.gridster-item-resizable-handler {
+  position: absolute !important;
+  z-index: 5 !important;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

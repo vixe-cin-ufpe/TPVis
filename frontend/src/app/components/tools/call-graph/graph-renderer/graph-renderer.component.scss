@@ -1,0 +1,62 @@
+#d3-parent {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    &>svg {
+        height: 100%;
+    }
+}
+
+.diff-border {
+    border: solid var(--clr-card-border-width) rgb(86, 86, 86);
+}
+.diff-background {
+    background: rgba(86, 86, 86, 0.7);
+}
+
+.left-border {
+    border: solid var(--clr-card-border-width) rgb(197, 27, 125);
+}
+
+.left-background {
+    background: rgba(197,27,125,0.7);
+}
+
+.right-border {
+    border: solid var(--clr-card-border-width) rgb(161, 105, 40);
+}
+
+.right-background {
+    background: rgba(161,105,40,0.7);
+}
+
+#sigma-example {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-sizing: content-box;
+}
+.prioritization-name {
+    float: left;
+    z-index: 1;
+    color: white;
+    padding: 0px 6px 0px 6px;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+
+#legend-renderer {
+    max-width: 220px;
+    left: 10px;
+    max-height: 30px;
+    bottom: 10px;
+    display: block;
+    position: absolute;
+}
+
+.test-indicator {
+    font-size: 8px;
+    line-height: 11px;
+    max-width: 0;
+}

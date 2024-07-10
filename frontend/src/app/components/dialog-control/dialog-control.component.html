@@ -1,0 +1,24 @@
+<clr-modal [clrModalOpen]="dialogs.length > 0" [clrModalClosable]="false">
+    <h3 class="modal-title">Alert{{dialogs.length > 1 ? 's':''}}</h3>
+    <div class="modal-body" style="max-height: 40vh">
+        <div *ngFor="let dialog of dialogs; let i = index">
+            <div class="dialog-row">
+                <div style="flex:1">
+                    <div style="font-weight: bold">{{dialog.title}}</div>
+                    {{dialog.text}}
+                </div>
+                <div class="btn-group btn-primary">
+                    <button class="btn  btn-danger" *ngIf="dialog.isPrompt"
+                            (click)="dialogService.process(dialog, false)">Cancel
+                    </button>
+                    <button class="btn btn-success" (click)="dialogService.process(dialog, true)">Ok</button>
+                </div>
+            </div>
+            <hr *ngIf="i != dialogs.length - 1"/>
+        </div>
+    </div>
+    <div class="modal-footer" *ngIf="dialogs.length > 1">
+        <button type="button" class="btn btn-danger" (click)="dialogService.processAll(false)">Cancel all</button>
+        <button type="button" class="btn btn-success" (click)="dialogService.processAll(true)">Ok to all</button>
+    </div>
+</clr-modal>

@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <app-pick-data-btn (click)="openDropzone()"></app-pick-data-btn>
+  <div class="plot" (onResize)="handleResize($event)">
+    <plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="config"></plotly-plot>
+  </div>
+</div>
+<app-tool-overlay title="Select group..." *ngIf="displayDataOverlay" (closeEvent)="displayDataOverlay = false">
+  <div class="card">
+    <div *ngFor="let eachGroup of dropzones; let i = index; trackBy: trackByKey" ><input type="text" (ngModelChange)="renameGroupPlotBehaviourSubject.emit()" [(ngModel)]="eachGroup.groupName" clrInput> <cds-icon style="cursor:pointer" (click)="openDropzoneForGroup(i)" shape="pencil" /></div>
+  </div>
+</app-tool-overlay>
+<div *ngFor="let eachGroup of dropzones; let i = index; trackBy: trackByKey">
+  <app-prioritization-dropzone #dropzone [toolName]="'Metric Box Plot (' + eachGroup.groupName + ')'" [openAutomatically]="false" [disableOpenButton]="true" [title]="'Select data for group ' + eachGroup.groupName" [emitInitialChange]="false" [allowedAmount]="-1" [disableSubjectInput]="true" (selectionChange)="onSelectionChange($event, i)" ></app-prioritization-dropzone>
+</div>

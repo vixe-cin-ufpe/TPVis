@@ -1,0 +1,45 @@
+<div class="sidenav">
+  <form class="clr-form clr-form-compact">
+    <clr-select-container>
+      <label>Drag and Drop:</label>
+      <select clrSelect name="options" [(ngModel)]="dndBehaviour" (ngModelChange)="emitDndMode()">
+        <option value="all">All prioritizations</option>
+        <option value="best">Best prioritization of Algorithm</option>
+      </select>
+    </clr-select-container>
+    <clr-input-container>
+      <label>Filter Node:</label>
+      <input clrInput placeholder="Search..." type="text" [formControl]="filterControl" />
+    </clr-input-container>
+  </form>
+  <clr-tree [clrLazy]="true" class="tree">
+    <clr-tree-node *clrRecursiveFor="let data of filteredWorkspaceTreeNodes; getChildren: getChildren" [title]="data.markAs ?? data.type | titlecase"
+    >
+      <div class="tree-node" [class.selected]="(nodeDndService.selectedElements! | async)?.includes(data)"
+           (click)="handleSelection(data)" (dragstart)="dragStartNodes(data)"
+           draggable="true">
+        <cds-icon shape="folder" *ngIf="data.type == 'folder' && !data.markAs"></cds-icon>
+        <cds-icon shape="application" *ngIf="data.type == 'folder' && data.markAs == 'project'"></cds-icon>
+        <cds-icon shape="file-settings" *ngIf="data.type == 'folder' && data.markAs == 'algorithm'"></cds-icon>
+        <cds-icon shape="bug" *ngIf="data.type == 'subject'"></cds-icon>
+        <cds-icon shape="file" *ngIf="data.type == 'prioritization'"></cds-icon>
+        <div *ngIf="data.type == 'prioritization'"
+             class="tree-node">
+            <div style="display: flex; align-items: center; gap: .4rem"> <div *ngIf="data.colorRGB != null" class="color-indicator" [style.background-color]="'rgb(' + data.colorRGB.r + ',' + data.colorRGB.g + ',' + data.colorRGB.b + ')'"></div>{{data.name}}</div>
+          <div >
+            <app-metric-badge *ngIf="data.autc != undefined" [value]="data.autc"></app-metric-badge>
+            <app-metric-badge *ngIf="data.apfd != undefined" [value]="data.apfd"></app-metric-badge>
+          </div>
+        </div>
+        <div *ngIf="data.type == 'subject'" class="tree-node">
+          <div>{{data.name}}</div>
+          <app-metric-badge *ngIf="data.averageMetric" [value]="data.averageMetric"></app-metric-badge>
+        </div>
+        <span *ngIf="(data.type != 'prioritization') && (data.type != 'subject')" class="tree-node"><div>{{data.name}}</div>
+        <app-metric-badge *ngIf="data.averageMetric"
+                          [value]="data.averageMetric"></app-metric-badge>
+        </span>
+      </div>
+    </clr-tree-node>
+  </clr-tree>
+</div>

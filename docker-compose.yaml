@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  tpvis:
+    build: .
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./workspaces:/workspaces:rw

@@ -1,0 +1,11 @@
+<div class="tool-overlay">
+  <div class="content">
+    <div class="title">
+      <div>{{title}}</div>
+      <div (click)="closeEvent.emit()" style="cursor:pointer;">
+        <cds-icon shape="window-close"></cds-icon>
+      </div>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

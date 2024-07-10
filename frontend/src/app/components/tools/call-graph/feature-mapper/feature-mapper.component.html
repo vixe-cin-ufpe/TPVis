@@ -1,0 +1,15 @@
+<button class="btn btn-sm" (click)="applyAliases()">
+    Rebuild Visualization
+</button>
+<input clrInput placeholder="Enter alias for selection..." name="bulkAlias" [formControl]="bulkAliasFormControl" />
+<button class="btn btn-icon btn-sm" (click)="applyBulkAlias()">
+    Apply
+</button>
+<ag-grid-angular style="height: 400px"
+                 [rowData]="rowData"
+                 class="ag-theme-alpine"
+                 rowSelection="multiple"
+                 (gridReady)="onGridReady($event)"
+                 [columnDefs]="columnDefs">
+</ag-grid-angular>
+

@@ -1,0 +1,110 @@
+<app-dialog-control></app-dialog-control>
+<div class="main-container">
+  <div class="content-container">
+    <clr-vertical-nav [style.width]="sidenavCollapsed ? '3rem !important':'20rem !important'">
+      <div class="loading-wrapper">
+        <div *ngIf="!sidenavCollapsed">
+          <cds-icon shape="loading" *ngIf="loadingText"></cds-icon>
+          <cds-icon shape="success-standard" *ngIf="!loadingText"></cds-icon>
+          <span style="margin-left: .4rem">{{loadingText ? loadingText : 'Ready'}}</span>
+        </div>
+        <div>
+          <cds-icon shape="collapse-card" style="cursor: pointer"
+                    [style.transform]="sidenavCollapsed ? 'rotate(-90deg)' : 'rotate(90deg)'"
+                    (click)="toggleCollapseNav()"></cds-icon>
+        </div>
+      </div>
+      <app-prioritization-tree *ngIf="workspace" [style.opacity]="sidenavCollapsed ? '0':'1'" [workspaceTreeNodes]="workspace!.data!"></app-prioritization-tree>
+    </clr-vertical-nav>
+    <div class="work-space-content">
+      <div class="work-space-view">
+        <gridster [options]="options" class="full-container">
+          <gridster-item [item]="item" *ngFor="let item of dashboard">
+            <span class="tool-meta-menu">
+              <span class="drag-handler">
+                <cds-icon shape="cursor-move"></cds-icon>
+                {{item!['tool']!.name}}
+              </span>
+              <span><cds-icon shape="window-close" (click)="removeItem($event, item)"></cds-icon> </span>
+            </span>
+            <app-autc class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'autc'"></app-autc>
+            <app-metric-evolution-heatmap class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'metric-evolution-heatmap'"></app-metric-evolution-heatmap>
+            <app-matrix class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'matrix'"></app-matrix>
+            <app-stack class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'stack'"></app-stack>
+            <app-table class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'table'"></app-table>
+            <app-subject-overview class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'subject-overview'"></app-subject-overview>
+            <app-metric-box-plot class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'metric-overview'"></app-metric-box-plot>
+            <app-position-parallel-coordinates class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'position-parallel-coords'"></app-position-parallel-coordinates>
+            <app-curve-tsne class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'curve-tsne'"></app-curve-tsne>
+            <app-metric-evolution class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'metric-evolution'"></app-metric-evolution>
+            <app-test-age class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'test-age'"></app-test-age>
+            <app-call-graph class="analysis-tool-instance" *ngIf="item!['tool']?.id == 'call-graph'"></app-call-graph>
+          </gridster-item>
+        </gridster>
+        <div class="workspace-help-text">Drag tools here...</div>
+      </div>
+
+      <div class="tools-pane" [style.height]="toolsPaneCollapsed ? '3rem !important':'7rem !important'">
+        <div>
+          <cds-icon shape="collapse-card" style="cursor: pointer"
+                    [style.transform]="toolsPaneCollapsed ? 'rotate(180deg)' : 'rotate(-360deg)'"
+                    (click)="toggleCollapseToolsPane()"></cds-icon>
+        </div>
+        <div class="tabs-vertical" [style.opacity]="toolsPaneCollapsed ? '0':'1'">
+          <ul class="nav" role="tablist">
+            <li role="presentation" class="nav-item">
+              <button id="tab1" class="btn btn-link nav-link" [class.active]="displayingPresetsInToolbar"
+                      (click)="displayingPresetsInToolbar=true" type="button">
+                View Presets
+              </button>
+            </li>
+            <li role="presentation" class="nav-item">
+              <button id="tab2" class="btn btn-link nav-link" [class.active]="!displayingPresetsInToolbar"
+                      (click)="displayingPresetsInToolbar=false" type="button">
+                View Tools
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="tool-set" *ngIf="!displayingPresetsInToolbar" [style.opacity]="toolsPaneCollapsed ? '0':'1'">
+          <div class="card"
+               *ngFor="let tool of tools"
+               (dragstart)="dragTool(tool)"
+               draggable="true" (dragend)="dropTool()"
+               [title]="tool.name"
+          >
+            <div class="card-header">
+            <span
+              [title]="getSubjectNumberBadgeTitle(tool)"
+              *ngIf="tool.subjectAmount != 0"
+              class="badge badge-info">{{tool.subjectAmount != -1 ? tool.subjectAmount : 'n'}} S
+            </span>
+              <span
+                [title]="getPrioritizationNumberBadgeTitle(tool)"
+                *ngIf="tool.inputAmount != 0"
+                class="badge badge-info">{{tool.inputAmount != -1 ? tool.inputAmount : 'n'}} P
+            </span>
+              <br/>
+              <img class="tool-img" [src]="tool.icon"/>
+            </div>
+          </div>
+        </div>
+        <div class="tool-set" *ngIf="displayingPresetsInToolbar" [style.opacity]="toolsPaneCollapsed ? '0':'1'">
+          <div class="card" style="cursor: pointer"
+               *ngFor="let preset of presets"
+               (click)="setViewPreset(preset)"
+               [title]="preset.name"
+          >
+            <div class="card-header">
+              <cds-icon class="preset-icon" [attr.shape]="preset.iconSpec"></cds-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="drop-globally" *ngIf="(nodeDndService.selectedElements | async) as selectedElements">
+  <div class="card" *ngIf="selectedElements.length > 0 && dragging && !toolDragged" (dragover)="allowDrop($event)" (drop)="onDrop(GlobalDropType.SUBJECT)">Drop Fault Globally...</div>
+  <div class="card" *ngIf="selectedElements.length > 0 && dragging && !toolDragged" (dragover)="allowDrop($event)" (drop)="onDrop(GlobalDropType.PRIORITIZATION)">Drop Prioritization Globally...</div>
+</div>

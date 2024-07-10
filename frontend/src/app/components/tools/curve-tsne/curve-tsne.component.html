@@ -1,0 +1,6 @@
+<div class="wrapper">
+  <app-prioritization-dropzone toolName="Test Curve TSNE" [displayColorOptions]="true" [allowedAmount]="-1" (onColorChange)="handleColorChange($event)" (selectionChange)="handleSelectedPrioritizationChange($event)" [disableFilterListening]="true" (onFailureSetChange)="handleFailureSetChange($event)" (onTestKeyChange)="handleTestKeyChange($event)"></app-prioritization-dropzone>
+  <div class="plot" (onResize)="handleResize($event)">
+    <plotly-plot [data]="graph.data" [layout]="graph.layout" [updateOnlyWithRevision]="true" [divId]="toolUUID" [revision]="graph.revision" [config]="config" (selected)="handleScatterSelect($event)" (deselect)="handleScatterSelect($event)"></plotly-plot>
+  </div>
+</div>
