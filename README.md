@@ -31,7 +31,7 @@ After unziping the archieve, you will be presented the following directory struc
 
 ### Using Docker
 
-Usually, users may prefer to run TPVis using docker. We provide in this repository a docker image to build and run the application. 
+Usually, users may prefer to run TPVis using docker (https://docs.docker.com/engine/install/). In this repository, we provide a docker image to build and run the application. 
 
 ```bash
 docker compose up --build
