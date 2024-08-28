@@ -1,4 +1,5 @@
 # TPVis: Test Case Prioritization Visualization
+Demo video: https://youtu.be/9bkLAHVkpXw
 
 This is the full source code for TPVis, presented in:
 
