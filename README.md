@@ -3,7 +3,8 @@ Demo video: https://youtu.be/9bkLAHVkpXw
 
 This is the full source code for TPVis, presented in:
 
-> TODO: add reference upon publication
+> José Arthur Silveira, Leandro Vieira, Nivan Ferreira. 2024. TPVis: A visual analytics system for exploring test case prioritization methods. Computers & Graphics, Volume 124, 2024, 104064, ISSN 0097-8493. DOI: [10.1016/j.cag.2024.104064](https://doi.org/10.1016/j.cag.2024.104064).
+
 
 ## Preparing a dataset
 
